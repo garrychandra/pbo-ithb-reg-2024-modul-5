@@ -23,7 +23,7 @@ public class RegFrame extends JFrame{
     private JLabel tempatLahir;
     private JTextField tTempatLahir;
     private JLabel tanggalLahir;
-    private JDatePicker pTanggalLahir;
+    private JDatePickerImpl dTanggalLahir; 
     private JLabel kelamin;
     private JRadioButton pria;
     private JRadioButton wanita;
@@ -130,11 +130,17 @@ public class RegFrame extends JFrame{
         tanggalLahir.setLocation(25,180);
         c.add(tanggalLahir);
 
+        /* 
         JDateComponentFactory fac = new JDateComponentFactory();
-        JDatePickerImpl datePicker = (JDatePickerImpl) fac.createJDatePicker();
-        datePicker.setBounds(200, 200, 200, 50);
-        datePicker.setLocation(180,175);
-        c.add(datePicker);
+        JDatePickerImpl datePicker = (JDatePickerImpl) fac.createJDatePicker();*/
+        UtilDateModel model = new UtilDateModel();
+        Properties p = new Properties();
+        JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
+        dTanggalLahir = new JDatePickerImpl(datePanel, new DateLabelFormatter());
+        System.out.println(dTanggalLahir.getJFormattedTextField());
+        dTanggalLahir.setBounds(200, 200, 200, 50);
+        dTanggalLahir.setLocation(180,175);
+        c.add(dTanggalLahir);
 
 
         setVisible(true);
