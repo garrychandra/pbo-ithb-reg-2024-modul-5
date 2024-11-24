@@ -1,7 +1,17 @@
 
 import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Properties;
+
 import javax.swing.*;
+import javax.swing.text.DateFormatter;
+import javax.swing.text.DefaultFormatterFactory;
+
 import org.jdatepicker.*;
+import org.jdatepicker.impl.JDatePanelImpl;
+import org.jdatepicker.impl.JDatePickerImpl;
+import org.jdatepicker.impl.UtilDateModel;
 
 public class RegFrame extends JFrame{
     private Container c;
@@ -113,6 +123,18 @@ public class RegFrame extends JFrame{
         tTempatLahir.setSize(200,20);
         tTempatLahir.setLocation(180,150);
         c.add(tTempatLahir);
+
+        tanggalLahir = new JLabel("Tanggal Lahir");
+        tanggalLahir.setFont(new Font("Arial", Font.PLAIN, 15));
+        tanggalLahir.setSize(150,20);
+        tanggalLahir.setLocation(25,180);
+        c.add(tanggalLahir);
+
+        JDateComponentFactory fac = new JDateComponentFactory();
+        JDatePickerImpl datePicker = (JDatePickerImpl) fac.createJDatePicker();
+        datePicker.setBounds(200, 200, 200, 50);
+        datePicker.setLocation(180,175);
+        c.add(datePicker);
 
 
         setVisible(true);
