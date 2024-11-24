@@ -1,7 +1,7 @@
 
 import java.awt.*;
 import javax.swing.*;
-
+import org.jdatepicker.*;
 
 public class RegFrame extends JFrame{
     private Container c;
@@ -13,7 +13,7 @@ public class RegFrame extends JFrame{
     private JLabel tempatLahir;
     private JTextField tTempatLahir;
     private JLabel tanggalLahir;
-    //date picker jdatepicker
+    private JDatePicker pTanggalLahir;
     private JLabel kelamin;
     private JRadioButton pria;
     private JRadioButton wanita;
@@ -56,8 +56,8 @@ public class RegFrame extends JFrame{
     private JTextField tBerlakuHingga;
     private JLabel kotaPembuatan;
     private JTextField tKotaPembuatan;
-    private JLabel tanggalPemuatan;
-    //date picker tanda pembuatan
+    private JLabel tanggalPembuatan;
+    private JDatePicker pTanggalPembuatan;
     private JButton insert;
 
     private String listAgama[] = {"Kristen", "Katolik", "Muslim", "Buddha", "Hindu"};
