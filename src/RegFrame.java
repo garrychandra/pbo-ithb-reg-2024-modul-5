@@ -14,7 +14,6 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 
 public class RegFrame extends JFrame{
-    private Container c;
     private JLabel title;
     private JLabel nik;
     private JTextField tNik;
@@ -74,73 +73,90 @@ public class RegFrame extends JFrame{
     private String listStatusKawin[] = {"Belum Menikah", "Menikah", "Janda/Duda"};
 
     public RegFrame(){
-        setTitle("Form Input Data Penduduk");
-        setBounds(300, 90, 600, 1200);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setResizable(false);
-
-        c = getContentPane();
-        c.setLayout(null);
+        this.setTitle("Form Input Data Penduduk");
+        this.setBounds(300, 90, 600, 1200);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setResizable(false);
+        this.setLayout(null);
 
         title = new JLabel("Form Input Data Penduduk");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(600, 30);
         title.setLocation(125, 30);
-        c.add(title);
+        this.add(title);
 
         nik = new JLabel("NIK");
         nik.setFont(new Font("Arial", Font.PLAIN, 15));
         nik.setSize(150,20);
         nik.setLocation(25,100);
-        c.add(nik);
+        this.add(nik);
 
         tNik = new JTextField();
         tNik.setFont(new Font("Arial", Font.PLAIN, 15));
         tNik.setSize(200,20);
         tNik.setLocation(180,100);
-        c.add(tNik);
+        this.add(tNik);
 
         name = new JLabel("Nama Lengkap");
         name.setFont(new Font("Arial", Font.PLAIN, 15));
         name.setSize(150,20);
         name.setLocation(25,125);
-        c.add(name);
+        this.add(name);
 
         tName = new JTextField();
         tName.setFont(new Font("Arial", Font.PLAIN, 15));
         tName.setSize(200,20);
         tName.setLocation(180,125);
-        c.add(tName);
+        this.add(tName);
 
         tempatLahir = new JLabel("Tempat Lahir");
         tempatLahir.setFont(new Font("Arial", Font.PLAIN, 15));
         tempatLahir.setSize(150,20);
         tempatLahir.setLocation(25,150);
-        c.add(tempatLahir);
+        this.add(tempatLahir);
 
         tTempatLahir = new JTextField();
         tTempatLahir.setFont(new Font("Arial", Font.PLAIN, 15));
         tTempatLahir.setSize(200,20);
         tTempatLahir.setLocation(180,150);
-        c.add(tTempatLahir);
+        this.add(tTempatLahir);
 
         tanggalLahir = new JLabel("Tanggal Lahir");
         tanggalLahir.setFont(new Font("Arial", Font.PLAIN, 15));
         tanggalLahir.setSize(150,20);
         tanggalLahir.setLocation(25,180);
-        c.add(tanggalLahir);
+        this.add(tanggalLahir);
 
         /* 
         JDateComponentFactory fac = new JDateComponentFactory();
-        JDatePickerImpl datePicker = (JDatePickerImpl) fac.createJDatePicker();*/
+        JDatePickerImpl datePicker = (JDatePickerImpl) fathis.createJDatePicker();*/
         UtilDateModel model = new UtilDateModel();
         Properties p = new Properties();
         JDatePanelImpl datePanel = new JDatePanelImpl(model, p);
         dTanggalLahir = new JDatePickerImpl(datePanel, new DateLabelFormatter());
-        System.out.println(dTanggalLahir.getJFormattedTextField());
-        dTanggalLahir.setBounds(200, 200, 200, 50);
+        dTanggalLahir.setSize(200, 30);
         dTanggalLahir.setLocation(180,175);
-        c.add(dTanggalLahir);
+        this.add(dTanggalLahir);
+        
+        kelamin = new JLabel("Jenis Kelamin");
+        kelamin.setFont(new Font("Arial", Font.PLAIN, 15));
+        kelamin.setSize(150,20);
+        kelamin.setLocation(25,210);
+        this.add(kelamin);
+
+        pria = new JRadioButton("Pria");
+        wanita = new JRadioButton("Wanita");
+        pria.setLocation(180,210);
+        pria.setSize(75,20);
+        wanita.setLocation(260,210);
+        wanita.setSize(75,20);
+
+        ButtonGroup grupKelamin = new ButtonGroup();
+        grupKelamin.add(pria);
+        grupKelamin.add(wanita);
+        this.add(pria);
+        this.add(wanita);
+
 
 
         setVisible(true);
