@@ -287,36 +287,52 @@ public class RegFrame extends JFrame implements ActionListener{
         pengangguran.addActionListener(this);
         this.add(pengangguran);
 
+        kewarganegaraan = new JLabel("Kewarganegaraan");
+        kewarganegaraan.setFont(new Font("Arial", Font.PLAIN, 15));
+        kewarganegaraan.setSize(150,20);
+        kewarganegaraan.setLocation(25,535);
+        this.add(kewarganegaraan);
 
-        
+        wni = new JRadioButton("WNI");
+        wni.setLocation(180,535);
+        wni.setSize(75,20);
+        wni.addActionListener(this);
+        wna = new JRadioButton("WNA");
+        wna.setLocation(260,535);
+        wna.setSize(75,20);
+        wna.addActionListener(this);
 
+        tWna = new JTextField();
+        tWna.setFont(new Font("Arial", Font.PLAIN, 15));
+        tWna.setSize(150,20);
+        tWna.setLocation(180,560);
+        tWna.setVisible(false);
+        this.add(tWna);
 
+        ButtonGroup wnButtonGroup = new ButtonGroup();
+        wnButtonGroup.add(wni);
+        wnButtonGroup.add(wna);
+        this.add(wni);
+        this.add(wna);
 
-
-
-
-
-
-
-/*/
         foto = new JLabel("Foto");
         foto.setFont(new Font("Arial", Font.PLAIN, 15));
         foto.setSize(150,20);
-        foto.setLocation(25,410);
+        foto.setLocation(25,585);
         this.add(foto);
 
         openFoto = new JButton("Open File");
         openFoto.addActionListener(this);
-        openFoto.setLocation(180,410);
+        openFoto.setLocation(180,585);
         openFoto.setSize(100,20);
         this.add(openFoto);
 
         fotoFilePath = new JLabel("No File Selected");
         fotoFilePath.setFont(new Font("Arial", Font.PLAIN, 15));
         fotoFilePath.setSize(150,20);
-        fotoFilePath.setLocation(285,410);
+        fotoFilePath.setLocation(285,585);
         this.add(fotoFilePath);
-        */
+
 
         
 
@@ -341,6 +357,15 @@ public class RegFrame extends JFrame implements ActionListener{
             akademisi.setEnabled(false);
             pns.setEnabled(false);
             karyawanSwasta.setEnabled(false);
+        }
+
+        if(e.getSource() == wna){
+            tWna.setVisible(true);
+
+        }
+
+        if(e.getSource() == wni){
+            tWna.setVisible(false);
         }
 
 
