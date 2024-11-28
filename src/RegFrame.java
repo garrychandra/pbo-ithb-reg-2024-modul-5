@@ -3,6 +3,9 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Properties;
 
 import javax.swing.*;
@@ -25,11 +28,13 @@ public class RegFrame extends JFrame implements ActionListener{
     private JLabel kelamin;
     private JRadioButton pria;
     private JRadioButton wanita;
+    ButtonGroup grupKelamin;
     private JLabel golDarah;
     private JRadioButton gola;
     private JRadioButton golb;
     private JRadioButton golab;
     private JRadioButton golo;
+    ButtonGroup golDarahGrup;
     private JLabel alamat;
     private JTextField tAlamat;
     private JLabel rtrw;
@@ -51,6 +56,7 @@ public class RegFrame extends JFrame implements ActionListener{
     private JLabel kewarganegaraan;
     private JRadioButton wni;
     private JRadioButton wna;
+    ButtonGroup wnButtonGroup;
     private JTextField tWna;
     private JLabel foto;
     private JButton openFoto;
@@ -58,30 +64,31 @@ public class RegFrame extends JFrame implements ActionListener{
     private JLabel fotoFilePath;
     private JLabel ttd;
     private JButton openTtd;
-    private JFileChooser fileTtd;
+    private File fileTtd;
     private JLabel ttdFilePath;
     private JLabel berlakuHingga;
     private JTextField tBerlakuHingga;
     private JLabel kotaPembuatan;
     private JTextField tKotaPembuatan;
     private JLabel tanggalPembuatan;
-    private JDatePicker pTanggalPembuatan;
+    private JDatePickerImpl dTanggalPembuatan;
     private JButton insert;
+    private String[] data;
 
     private String listAgama[] = {"Kristen", "Katolik", "Muslim", "Buddha", "Hindu"};
     private String listStatusKawin[] = {"Belum Menikah", "Menikah", "Janda/Duda"};
 
     public RegFrame(){
         this.setTitle("Form Input Data Penduduk");
-        this.setBounds(300, 90, 600, 1200);
-        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.setSize(430, 800);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(null);
 
         title = new JLabel("Form Input Data Penduduk");
         title.setFont(new Font("Arial", Font.PLAIN, 30));
         title.setSize(600, 30);
-        title.setLocation(125, 30);
+        title.setLocation(25, 30);
         this.add(title);
 
         nik = new JLabel("NIK");
@@ -149,7 +156,7 @@ public class RegFrame extends JFrame implements ActionListener{
         wanita = new JRadioButton("Wanita");
         wanita.setLocation(260,210);
         wanita.setSize(75,20);
-        ButtonGroup grupKelamin = new ButtonGroup();
+        grupKelamin = new ButtonGroup();
         grupKelamin.add(pria);
         grupKelamin.add(wanita);
         this.add(pria);
@@ -173,7 +180,7 @@ public class RegFrame extends JFrame implements ActionListener{
         golo = new JRadioButton("O");
         golo.setLocation(325,235);
         golo.setSize(40,20);
-        ButtonGroup golDarahGrup = new ButtonGroup();
+        golDarahGrup = new ButtonGroup();
         golDarahGrup.add(gola);
         golDarahGrup.add(golb);
         golDarahGrup.add(golab);
@@ -309,7 +316,7 @@ public class RegFrame extends JFrame implements ActionListener{
         tWna.setVisible(false);
         this.add(tWna);
 
-        ButtonGroup wnButtonGroup = new ButtonGroup();
+        wnButtonGroup = new ButtonGroup();
         wnButtonGroup.add(wni);
         wnButtonGroup.add(wna);
         this.add(wni);
@@ -333,9 +340,68 @@ public class RegFrame extends JFrame implements ActionListener{
         fotoFilePath.setLocation(285,585);
         this.add(fotoFilePath);
 
-
         
+        ttd = new JLabel("Foto");
+        ttd.setFont(new Font("Arial", Font.PLAIN, 15));
+        ttd.setSize(150,20);
+        ttd.setLocation(25,610);
+        this.add(ttd);
 
+        openTtd = new JButton("Open File");
+        openTtd.addActionListener(this);
+        openTtd.setLocation(180,610);
+        openTtd.setSize(100,20);
+        this.add(openTtd);
+
+        ttdFilePath = new JLabel("No File Selected");
+        ttdFilePath.setFont(new Font("Arial", Font.PLAIN, 15));
+        ttdFilePath.setSize(150,20);
+        ttdFilePath.setLocation(285,610);
+        this.add(ttdFilePath);
+
+        berlakuHingga = new JLabel("Berlaku Hingga");
+        berlakuHingga.setFont(new Font("Arial", Font.PLAIN, 15));
+        berlakuHingga.setSize(150,20);
+        berlakuHingga.setLocation(25,635);
+        this.add(berlakuHingga);
+
+        tBerlakuHingga = new JTextField();
+        tBerlakuHingga.setFont(new Font("Arial", Font.PLAIN, 15));
+        tBerlakuHingga.setSize(200,20);
+        tBerlakuHingga.setLocation(180,635);
+        this.add(tBerlakuHingga);
+
+        kotaPembuatan = new JLabel("Kota Pembuatan");
+        kotaPembuatan.setFont(new Font("Arial", Font.PLAIN, 15));
+        kotaPembuatan.setSize(150,20);
+        kotaPembuatan.setLocation(25,660);
+        this.add(kotaPembuatan);
+
+        tKotaPembuatan = new JTextField();
+        tKotaPembuatan.setFont(new Font("Arial", Font.PLAIN, 15));
+        tKotaPembuatan.setSize(200,20);
+        tKotaPembuatan.setLocation(180,660);
+        this.add(tKotaPembuatan);
+
+        tanggalPembuatan = new JLabel("Tanggal Pembuatan");
+        tanggalPembuatan.setFont(new Font("Arial", Font.PLAIN, 15));
+        tanggalPembuatan.setSize(150,20);
+        tanggalPembuatan.setLocation(25,685);
+        this.add(tanggalPembuatan);
+
+        UtilDateModel model2 = new UtilDateModel();
+        Properties p2 = new Properties();
+        JDatePanelImpl datePanel2 = new JDatePanelImpl(model2, p2);
+        dTanggalPembuatan = new JDatePickerImpl(datePanel2, new DateLabelFormatter());
+        dTanggalPembuatan.setSize(200, 30);
+        dTanggalPembuatan.setLocation(180,685);
+        this.add(dTanggalPembuatan);
+        
+        insert = new JButton("Insert Data");
+        insert.setSize(200, 30);
+        insert.setLocation(100,720);
+        insert.addActionListener(this);
+        this.add(insert);
         
         setVisible(true);
     }
@@ -352,11 +418,33 @@ public class RegFrame extends JFrame implements ActionListener{
             }
         }
 
+        if(e.getSource() == openTtd){
+            JFileChooser fileChooser = new JFileChooser();
+            int response = fileChooser.showOpenDialog(null);
+
+            if(response == JFileChooser.APPROVE_OPTION){
+                fileTtd = new File(fileChooser.getSelectedFile().getAbsolutePath());
+                ttdFilePath.setText(fileTtd.getName());
+            }
+        }
+
         if(e.getSource() == pengangguran){
-            wiraswasta.setEnabled(false);
-            akademisi.setEnabled(false);
-            pns.setEnabled(false);
-            karyawanSwasta.setEnabled(false);
+            if(pengangguran.isSelected()){
+                wiraswasta.setEnabled(false);
+                akademisi.setEnabled(false);
+                pns.setEnabled(false);
+                karyawanSwasta.setEnabled(false);
+                wiraswasta.setSelected(false);
+                akademisi.setSelected(false);
+                pns.setSelected(false);
+                karyawanSwasta.setSelected(false);
+            }
+            else{
+                wiraswasta.setEnabled(true);
+                akademisi.setEnabled(true);
+                pns.setEnabled(true);
+                karyawanSwasta.setEnabled(true);
+            }
         }
 
         if(e.getSource() == wna){
@@ -368,11 +456,54 @@ public class RegFrame extends JFrame implements ActionListener{
             tWna.setVisible(false);
         }
 
+        if(e.getSource() == insert) {
+            JOptionPane optionPane = new JOptionPane();
+            //cara ambil tanggal
+            //String s = dTanggalLahir.getJFormattedTextField().getText();
+            //System.out.println(s);
 
+            if(tNik.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"NIK Kosong","NIK Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tName.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"Nama Kosong","Nama Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tTempatLahir.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"Tempat Lahir Kosong","Tempat Lahir Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(dTanggalLahir.getJFormattedTextField().getText().equals("")){
+                optionPane.showMessageDialog(null,"Tanggal Lahir Kosong","Tanggal Lahir Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(grupKelamin.getSelection() == null ){
+                optionPane.showMessageDialog(null,"Jenis Kelamin Kosong","Jenis Kelamin Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(golDarahGrup.getSelection() == null ){
+                optionPane.showMessageDialog(null,"Golongan Darah Kosong","Golongan Darah Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tAlamat.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"Alamat Kosong","Alamat Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tRtrw.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"RT/RW Kosong","RT/RW Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tKeldesa.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"Kelurahan/Desa Kosong","Kelurahan/Desa Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tKec.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"Kecamatan Kosong","Kecamatan Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tAgama.getSelectedItem().toString().equals("")){
+                optionPane.showMessageDialog(null,"Agama Kosong","Agama Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tStatusKawin.getSelectedItem().toString().equals("")){
+                optionPane.showMessageDialog(null,"Status Perkawinan Kosong","Status Perkawinan Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(!karyawanSwasta.isSelected() || !pns.isSelected() || !wiraswasta.isSelected() || !akademisi.isSelected() || !pengangguran.isSelected()){
+                optionPane.showMessageDialog(null,"Pekerjaan Kosong","Pekerjaan Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(wnButtonGroup.getSelection() == null ){
+                optionPane.showMessageDialog(null,"Kewarganegaraan Kosong","Kewarganegaraan Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(fotoFile.getAbsolutePath().equals("")){
+                optionPane.showMessageDialog(null,"Foto Kosong","Foto Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(fileTtd.getAbsolutePath().equals("")){
+                optionPane.showMessageDialog(null,"Tanda Tangan Kosong","Tanda Tangan Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(berlakuHingga.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"Berlaku Hingga Kosong","Berlaku Hingga Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(tKotaPembuatan.getText().trim().isEmpty()){
+                optionPane.showMessageDialog(null,"Kota Pembuatan Kosong","Kota Pembuatan Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(dTanggalPembuatan.getJFormattedTextField().getText().equals("")){
+                optionPane.showMessageDialog(null,"Tanggal Pembuatan Kosong","Tanggal Pembuatan Kosong", JOptionPane.ERROR_MESSAGE);
+            } else {
+                //input data ke string array
+            }
+        
+        }
     }
-    
-    
-
-
-    
 }
