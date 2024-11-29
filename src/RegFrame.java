@@ -3,11 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import org.jdatepicker.*;
@@ -73,7 +75,7 @@ public class RegFrame extends JFrame implements ActionListener{
     private JLabel tanggalPembuatan;
     private JDatePickerImpl dTanggalPembuatan;
     private JButton insert;
-    private String[] data;
+    private String[] data = new String[19];
 
     private String listAgama[] = {"Kristen", "Katolik", "Muslim", "Buddha", "Hindu"};
     private String listStatusKawin[] = {"Belum Menikah", "Menikah", "Janda/Duda"};
@@ -153,9 +155,11 @@ public class RegFrame extends JFrame implements ActionListener{
         pria = new JRadioButton("Pria");
         pria.setLocation(180,210);
         pria.setSize(75,20);
+        pria.setActionCommand("Pria");
         wanita = new JRadioButton("Wanita");
         wanita.setLocation(260,210);
         wanita.setSize(75,20);
+        wanita.setActionCommand("Wanita");
         grupKelamin = new ButtonGroup();
         grupKelamin.add(pria);
         grupKelamin.add(wanita);
@@ -171,15 +175,19 @@ public class RegFrame extends JFrame implements ActionListener{
         gola = new JRadioButton("A");
         gola.setLocation(180,235);
         gola.setSize(40,20);
+        gola.setActionCommand("A");
         golb = new JRadioButton("B");
         golb.setLocation(225,235);
         golb.setSize(40,20);
+        golb.setActionCommand("B");
         golab = new JRadioButton("AB");
         golab.setLocation(270,235);
         golab.setSize(50,20);
+        golab.setActionCommand("AB");
         golo = new JRadioButton("O");
         golo.setLocation(325,235);
         golo.setSize(40,20);
+        golo.setActionCommand("O");
         golDarahGrup = new ButtonGroup();
         golDarahGrup.add(gola);
         golDarahGrup.add(golb);
@@ -303,8 +311,10 @@ public class RegFrame extends JFrame implements ActionListener{
         wni = new JRadioButton("WNI");
         wni.setLocation(180,535);
         wni.setSize(75,20);
+        wni.setActionCommand("WNI");
         wni.addActionListener(this);
         wna = new JRadioButton("WNA");
+        wna.setActionCommand("WNA");
         wna.setLocation(260,535);
         wna.setSize(75,20);
         wna.addActionListener(this);
@@ -461,7 +471,8 @@ public class RegFrame extends JFrame implements ActionListener{
             //cara ambil tanggal
             //String s = dTanggalLahir.getJFormattedTextField().getText();
             //System.out.println(s);
-
+            
+            /*/
             if(tNik.getText().trim().isEmpty()){
                 optionPane.showMessageDialog(null,"NIK Kosong","NIK Kosong", JOptionPane.ERROR_MESSAGE);
             } else if(tName.getText().trim().isEmpty()){
@@ -486,15 +497,17 @@ public class RegFrame extends JFrame implements ActionListener{
                 optionPane.showMessageDialog(null,"Agama Kosong","Agama Kosong", JOptionPane.ERROR_MESSAGE);
             } else if(tStatusKawin.getSelectedItem().toString().equals("")){
                 optionPane.showMessageDialog(null,"Status Perkawinan Kosong","Status Perkawinan Kosong", JOptionPane.ERROR_MESSAGE);
-            } else if(!karyawanSwasta.isSelected() || !pns.isSelected() || !wiraswasta.isSelected() || !akademisi.isSelected() || !pengangguran.isSelected()){
+            } else if(!karyawanSwasta.isSelected() && !pns.isSelected() && !wiraswasta.isSelected() && !akademisi.isSelected() && !pengangguran.isSelected()){
                 optionPane.showMessageDialog(null,"Pekerjaan Kosong","Pekerjaan Kosong", JOptionPane.ERROR_MESSAGE);
             } else if(wnButtonGroup.getSelection() == null ){
+                optionPane.showMessageDialog(null,"Kewarganegaraan Kosong","Kewarganegaraan Kosong", JOptionPane.ERROR_MESSAGE);
+            } else if(wnButtonGroup.getSelection().getActionCommand().equals("WNA") && tWna.getText().trim().isEmpty()){
                 optionPane.showMessageDialog(null,"Kewarganegaraan Kosong","Kewarganegaraan Kosong", JOptionPane.ERROR_MESSAGE);
             } else if(fotoFile.getAbsolutePath().equals("")){
                 optionPane.showMessageDialog(null,"Foto Kosong","Foto Kosong", JOptionPane.ERROR_MESSAGE);
             } else if(fileTtd.getAbsolutePath().equals("")){
                 optionPane.showMessageDialog(null,"Tanda Tangan Kosong","Tanda Tangan Kosong", JOptionPane.ERROR_MESSAGE);
-            } else if(berlakuHingga.getText().trim().isEmpty()){
+            } else if(tBerlakuHingga.getText().trim().isEmpty()){
                 optionPane.showMessageDialog(null,"Berlaku Hingga Kosong","Berlaku Hingga Kosong", JOptionPane.ERROR_MESSAGE);
             } else if(tKotaPembuatan.getText().trim().isEmpty()){
                 optionPane.showMessageDialog(null,"Kota Pembuatan Kosong","Kota Pembuatan Kosong", JOptionPane.ERROR_MESSAGE);
@@ -502,7 +515,62 @@ public class RegFrame extends JFrame implements ActionListener{
                 optionPane.showMessageDialog(null,"Tanggal Pembuatan Kosong","Tanggal Pembuatan Kosong", JOptionPane.ERROR_MESSAGE);
             } else {
                 //input data ke string array
-            }
+                data[0] = tNik.getText().trim();
+                data[1] = tName.getText().trim();
+                data[2] = tTempatLahir.getText().trim();
+                data[3] = dTanggalLahir.getJFormattedTextField().getText();
+                data[4] = grupKelamin.getSelection().getActionCommand();
+                data[5] = golDarahGrup.getSelection().getActionCommand();
+                data[6] = tAlamat.getText().trim();
+                data[7] = tRtrw.getText().trim();
+                data[8] = tKeldesa.getText().trim();
+                data[9] = tKec.getText().trim();
+                data[10] = tAgama.getSelectedItem().toString();
+                data[11] = tStatusKawin.getSelectedItem().toString();
+
+                String s = "";
+                if(karyawanSwasta.isSelected()){
+                    s += "Karyawan Swasta, ";
+                }
+                if(pns.isSelected()){
+                    s += "PNS, ";
+                }
+                if(akademisi.isSelected()){
+                    s += "Akademisi, ";
+                }
+                if(wiraswasta.isSelected()){
+                    s += "Wiraswasta, ";
+                }
+                data[12] = s.substring(0, s.length()-2);
+                data[13] = wnButtonGroup.getSelection().getActionCommand();
+                if (data[13].equals("WNA")) {
+                    data[13] += " (" + tWna.getText().trim() + ")";
+                }
+                data[14] = fotoFile.getAbsolutePath();
+                data[15] = fileTtd.getAbsolutePath();
+                data[16] = tBerlakuHingga.getText().trim();
+                data[17] = tKotaPembuatan.getText().trim();
+                data[18] = dTanggalPembuatan.getJFormattedTextField().getText();
+                */
+                JFrame f = new JFrame();
+                try {
+                    f.setContentPane(new JLabel(new ImageIcon(ImageIO.read(new File("C:\\Users\\Garry\\Documents\\school stuff\\ithb\\pbo\\pbo-ithb-reg-2024-modul-5\\src\\img\\templatektp.jpg")))));
+                } catch (IOException err) {
+                    err.printStackTrace();
+                }
+                f.setSize(500,317);
+                f.pack();
+                f.setVisible(true);
+                JLabel ktp = new JLabel("Republik Harapan Bangsa");
+                ktp.setFont(new Font("Arial", Font.PLAIN, 30));
+                ktp.setSize(400, 30);
+                ktp.setLocation(80, 15);
+                f.add(ktp);
+                JLabel ktpNik = new JLabel("1234312321321");
+                ktpNik.setFont(new Font("Arial", Font.PLAIN, 25));
+                ktpNik.setBounds(110,50,500,40);
+                f.add(ktpNik);
+                JLabel ktpNama = new JLabel("Garry Alexander Chandra");
         
         }
     }
