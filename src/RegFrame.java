@@ -594,7 +594,7 @@ public class RegFrame extends JFrame implements ActionListener {
 
                 JLabel ktpKotaBuat = new JLabel(data[17]);
                 ktpKotaBuat.setFont(new Font("Arial", Font.PLAIN, 12));
-                ktpKotaBuat.setBounds(390, 212, 200, 20);
+                ktpKotaBuat.setBounds(385, 212, 200, 20);
                 f.add(ktpKotaBuat);
 
                 JLabel ktpTanggalBuat = new JLabel(data[18]);
