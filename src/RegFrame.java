@@ -26,13 +26,13 @@ public class RegFrame extends JFrame implements ActionListener {
     private JLabel kelamin;
     private JRadioButton pria;
     private JRadioButton wanita;
-    ButtonGroup grupKelamin;
+    private ButtonGroup grupKelamin;
     private JLabel golDarah;
     private JRadioButton gola;
     private JRadioButton golb;
     private JRadioButton golab;
     private JRadioButton golo;
-    ButtonGroup golDarahGrup;
+    private ButtonGroup golDarahGrup;
     private JLabel alamat;
     private JTextField tAlamat;
     private JLabel rtrw;
@@ -54,7 +54,7 @@ public class RegFrame extends JFrame implements ActionListener {
     private JLabel kewarganegaraan;
     private JRadioButton wni;
     private JRadioButton wna;
-    ButtonGroup wnButtonGroup;
+    private ButtonGroup wnButtonGroup;
     private JTextField tWna;
     private JLabel foto;
     private JButton openFoto;
@@ -79,7 +79,7 @@ public class RegFrame extends JFrame implements ActionListener {
     public RegFrame() {
         this.setTitle("Form Input Data Penduduk");
         this.setSize(430, 800);
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setResizable(false);
         this.setLayout(null);
 
@@ -514,7 +514,7 @@ public class RegFrame extends JFrame implements ActionListener {
                 }
                 f.setSize(500, 317);
                 f.pack();
-                f.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+                f.setDefaultCloseOperation(EXIT_ON_CLOSE);
                 f.setVisible(true);
 
                 JLabel ktp = new JLabel("Republik Harapan Bangsa");
